@@ -25,7 +25,6 @@ def main():
         clock.tick(60)
         #update screen
         weaselbots.update()
-        #Check if collision will occur
         #updates screen image (redraws screen everytime)
         screen.blit(background, (0, 0))
         pygame.display.flip()
