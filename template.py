@@ -1,6 +1,5 @@
 #Calls the pygame library
 import pygame
-import random
 #Optional: Sets up constants and functions in global namespace
 from pygame.locals import *
 
