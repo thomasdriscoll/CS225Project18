@@ -18,9 +18,10 @@ import pygame, random, os, sys
 from pygame.locals import *
 #Global Color
 BLACK = (0, 0, 0)
-def load_image(name):
-    #Creates a full path for name to the data subdirectory
-    #Think linux: /home/user/directory/subdirectory/etc./data
+
+def load_image(name, colorkey=None):
+    #Creates a full path for name to the numbers folder from current folder position
+    #Think usr/.../cs225game/numbers
     fullname = os.path.join('numbers', name)
     #try function attempts to load image to see if that works
     try:
@@ -40,11 +41,15 @@ def load_image(name):
     return image, image.get_rect()
 
 class NumberPNG(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, width, height, screen):
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('real_zero', -1)
+        self.image, self.rect = load_image('real_zero.png', -1)
+        self.rect.x = width/2
+        self.rect.y = height/3
+        self.move = 0
     def draw(self):
-
+        newpos = self.rect.move((self.move), 0)
+        self.rect = newpos
 class BubbleNode():
     def __init__(self, width, height, screen):
         self.x = width/2
@@ -75,7 +80,8 @@ def main():
     #OBJECTS GO HERE
     bubble1 = BubbleNode(width, height, screen)
     #Create numbers png
-
+    zero = NumberPNG(width, height, screen)
+    allsprites = pygame.sprite.RenderPlain(zero)
     #create game clock
     clock = pygame.time.Clock()
     #Game loop
@@ -83,13 +89,13 @@ def main():
     while not done:
         #increment clock
         clock.tick(60)
-        #update screen
-        #bubble1.update()
         #Check if collision will occur
+        allsprites.update()
         #updates screen image (redraws screen everytime)
         screen.blit(background, (0, 0))
         bubble1.draw()
-        number0.draw()
+        allsprites.draw(screen)
+
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
