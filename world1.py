@@ -34,54 +34,78 @@ def load_image(name, colorkey=None):
     image = image.convert()
     #Sets colorkey for image
     if colorkey is not None:
-    #If colorkey is -1, color of image is set to topleft pixel color
+    #If colorkey is -1, color of image is set to topleft pixel color of Surface
         if colorkey is -1:
             colorkey = image.get_at((0,0))
         image.set_colorkey(colorkey, RLEACCEL)
     return image, image.get_rect()
 
 class NumberPNG(pygame.sprite.Sprite):
+    def __init__(self, width, height, image):
+        pygame.sprite.Sprite.__init__(self)
+        self.image, self.rect = load_image(image, -1)
+        self.movex = 0
+        self.movey = 5
+        self.rect.centery = height/3
+    def update(self):
+        newpos = self.rect.move((self.movex), (self.movey))
+        self.rect = newpos
+
+class Line(pygame.sprite.Sprite):
     def __init__(self, width, height, screen):
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('real_zero.png', -1)
-        self.rect.x = width/2
-        self.rect.y = height/3
-        self.move = 0
-    def draw(self):
-        newpos = self.rect.move((self.move), 0)
-        self.rect = newpos
+
+#BubbleNode is going to need to be able to take two NumberPNG objects
+# as well as three Line objects
 class BubbleNode():
-    def __init__(self, width, height, screen):
+    def __init__(self, width, height, num1, num2):
         self.x = width/2
         self.y = height/3
         self.y_speed = 5
-        self.screen = screen
         self._width = width
         self._height = height
+        self.num1 = NumberPNG(width, height, num1)
+        self.num2 = NumberPNG(width, height, num2)
+        self.num1.rect.centerx = width/2 - 10
+        self.num2.rect.centerx = width/2 + 10
+        self.num1.movey = 5
+        self.num2.movey = 5
+        self.nodes_nums = pygame.sprite.RenderPlain((self.num1, self.num2))
     def update(self):
         if self.y >= self._height or self.y <= 0:
             self.y_speed = -self.y_speed
+            self.num1.movey = -self.num1.movey
+            self.num2.movey = -self.num2.movey
         self.y = self.y + self.y_speed
-    def draw(self):
+        self.nodes_nums.update()
+    def draw(self, screen):
         BLACK = (0, 0, 0)
-        pygame.draw.circle(self.screen, BLACK, (self.x, self.y), 50, 1)
+        pygame.draw.circle(screen, BLACK, (self.x, self.y), 50, 1)
+        self.nodes_nums.draw(screen)
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((400, 500))
+    #Set this to fullscreen in later development
+    screen = pygame.display.set_mode((1000, 1000))
     width, height = screen.get_size()
     #fills in background
     background = pygame.Surface(screen.get_size())
     background = background.convert()
-    background.fill((250, 250, 250))
+    background.fill((255, 255, 255))
     #Display the Background While Setup Finishes
     screen.blit(background, (0,0))
     pygame.display.flip()
-    #OBJECTS GO HERE
-    bubble1 = BubbleNode(width, height, screen)
+
+    #OBJECTS
     #Create numbers png
-    zero = NumberPNG(width, height, screen)
-    allsprites = pygame.sprite.RenderPlain(zero)
+    numbers_png = []
+    num1 = 'real_zero.png'
+    num2 = 'real_one.png'
+    #numbers_png.append(one)
+    #root bubble
+    bubble1 = BubbleNode(width, height, num1, num2)
+
+
     #create game clock
     clock = pygame.time.Clock()
     #Game loop
@@ -90,11 +114,10 @@ def main():
         #increment clock
         clock.tick(60)
         #Check if collision will occur
-        allsprites.update()
+        bubble1.update()
         #updates screen image (redraws screen everytime)
         screen.blit(background, (0, 0))
-        bubble1.draw()
-        allsprites.draw(screen)
+        bubble1.draw(screen)
 
         pygame.display.flip()
         for event in pygame.event.get():
