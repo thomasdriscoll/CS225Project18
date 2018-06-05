@@ -9,7 +9,7 @@
 
 #Current objectives:
 # - Handle "infinite" bubble generation in game loop
-# - Stopping position of the bubble 
+# - Stopping position of the bubble
 
 #Calls the pygame library
 import pygame, random, os, sys
@@ -101,10 +101,23 @@ class BubbleNode():
                 self.num2.movey = -self.num2.movey
             self.y = self.y + self.movey
             self.nodes_nums.update()
+
     def draw(self, screen):
         BLACK = (0, 0, 0)
         pygame.draw.circle(screen, BLACK, (self.x, self.y), 50, 1)
         self.nodes_nums.draw(screen)
+
+class BubbleNodeGroup():
+    def __init__(self):
+        self.bubbles = []
+    def append(self, bubbleNode):
+        self.bubbles.append(bubbleNode)
+    def update(self):
+        for node in self.bubbles:
+            node.update()
+    def draw(self, screen):
+        for node in self.bubbles:
+            node.draw(screen)
 
 def main():
     pygame.init()
@@ -125,7 +138,9 @@ def main():
     num2 = get_number()
     #numbers_png.append(one)
     #root bubble
-    bubble1 = BubbleNode(width, height, num1, num2)
+    bubbles = BubbleNodeGroup()
+    root = BubbleNode(width, height, num1, num2)
+    bubbles.append(root)
 
 
     #create game clock
@@ -136,10 +151,10 @@ def main():
         #increment clock
         clock.tick(60)
         #Check if collision will occur
-        bubble1.update()
+        bubbles.update()
         #updates screen image (redraws screen everytime)
         screen.blit(background, (0, 0))
-        bubble1.draw(screen)
+        bubbles.draw(screen)
 
         pygame.display.flip()
         for event in pygame.event.get():
