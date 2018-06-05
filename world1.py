@@ -8,9 +8,8 @@
 
 
 #Current objectives:
-# 1) Create the bubble object
-# 2) Create the line object with positioning
-# 3)
+# - Handle "infinite" bubble generation in game loop
+# - Stopping position of the bubble 
 
 #Calls the pygame library
 import pygame, random, os, sys
@@ -64,43 +63,44 @@ def get_number():
         return 'real_nine.png'
 
 class NumberPNG(pygame.sprite.Sprite):
-    def __init__(self, width, height, image):
+    def __init__(self, y, x, width, movex, movey, image):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image(image, -1)
-        self.movex = 0
-        self.movey = 5
-        self.rect.centery = height/3
+        self.movex = movex
+        self.movey = movey
+        self.rect.centerx = width/2 + x
+        self.rect.centery = y
     def update(self):
         newpos = self.rect.move((self.movex), (self.movey))
         self.rect = newpos
 
 class Line(pygame.sprite.Sprite):
-    def __init__(self, width, height, screen):
+    def __init__(self, start_pos):
         pygame.sprite.Sprite.__init__(self)
+        #Determine position of Line
 
 #BubbleNode is going to need to be able to take two NumberPNG objects
 # as well as three Line objects
 class BubbleNode():
     def __init__(self, width, height, num1, num2):
         self.x = width/2
-        self.y = height/3
-        self.y_speed = 5
+        self.y = 30
+        self.movex = 0
+        self.movey = 3
         self._width = width
         self._height = height
-        self.num1 = NumberPNG(width, height, num1)
-        self.num2 = NumberPNG(width, height, num2)
-        self.num1.rect.centerx = width/2 - 10
-        self.num2.rect.centerx = width/2 + 10
-        self.num1.movey = 5
-        self.num2.movey = 5
+        self.num1 = NumberPNG(self.y, -10, width, self.movex, self.movey, num1)
+        self.num2 = NumberPNG(self.y, 10, width, self.movex, self.movey, num2)
         self.nodes_nums = pygame.sprite.RenderPlain((self.num1, self.num2))
+        self.triggered = False
     def update(self):
-        if self.y >= self._height or self.y <= 0:
-            self.y_speed = -self.y_speed
-            self.num1.movey = -self.num1.movey
-            self.num2.movey = -self.num2.movey
-        self.y = self.y + self.y_speed
-        self.nodes_nums.update()
+        if not self.triggered:
+            if self.y >= self._height or self.y <= 0:
+                self.movey = -self.movey
+                self.num1.movey = -self.num1.movey
+                self.num2.movey = -self.num2.movey
+            self.y = self.y + self.movey
+            self.nodes_nums.update()
     def draw(self, screen):
         BLACK = (0, 0, 0)
         pygame.draw.circle(screen, BLACK, (self.x, self.y), 50, 1)
@@ -121,7 +121,6 @@ def main():
 
     #OBJECTS
     #Create numbers png
-    numbers_png = []
     num1 = get_number()
     num2 = get_number()
     #numbers_png.append(one)
