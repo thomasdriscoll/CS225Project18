@@ -40,6 +40,29 @@ def load_image(name, colorkey=None):
         image.set_colorkey(colorkey, RLEACCEL)
     return image, image.get_rect()
 
+def get_number():
+    num = random.randint(0, 9)
+    if num == 0:
+        return 'real_zero.png'
+    elif num == 1:
+        return 'real_one.png'
+    elif num == 2:
+        return 'real_two.png'
+    elif num == 3:
+        return 'real_three.png'
+    elif num == 4:
+        return 'real_four.png'
+    elif num == 5:
+        return 'real_five.png'
+    elif num == 6:
+        return 'real_six.png'
+    elif num == 7:
+        return 'real_seven.png'
+    elif num == 8:
+        return 'real_eight.png'
+    elif num == 9:
+        return 'real_nine.png'
+
 class NumberPNG(pygame.sprite.Sprite):
     def __init__(self, width, height, image):
         pygame.sprite.Sprite.__init__(self)
@@ -99,8 +122,8 @@ def main():
     #OBJECTS
     #Create numbers png
     numbers_png = []
-    num1 = 'real_zero.png'
-    num2 = 'real_one.png'
+    num1 = get_number()
+    num2 = get_number()
     #numbers_png.append(one)
     #root bubble
     bubble1 = BubbleNode(width, height, num1, num2)
