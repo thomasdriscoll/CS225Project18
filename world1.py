@@ -169,6 +169,11 @@ def main():
     # ---------OBJECTS AND FUNCTIONS FOR TESTING --------------
     bubble1 = BubbleNode(width, height)
     bubbles.append(bubble1)
+    #This serves to remind me of how to add infinite number of elements
+    #By doing bubbles.append(BubbleNode(width, height)) in the main game loop, I should be
+    #able to work around screen size / number of nodes issue
+    # for i in range(1, 3):
+    #     bubbles.append(BubbleNode(width,height))
 
     #Game loop
     main = True
