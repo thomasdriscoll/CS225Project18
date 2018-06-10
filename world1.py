@@ -39,8 +39,8 @@ def load_image(name, colorkey=None):
         image.set_colorkey(colorkey, RLEACCEL)
     return image, image.get_rect()
 
-def get_number():
-    num = random.randint(0, 9)
+#Given a number between 0-9, returns the associated image
+def get_numberimage(num):
     if num == 0:
         return 'real_zero.png'
     elif num == 1:
@@ -62,64 +62,80 @@ def get_number():
     elif num == 9:
         return 'real_nine.png'
 
+#Creates the Number object, which is basically a dependent of the BubbleNode
+#Moves with its associated Node object
 class NumberPNG(pygame.sprite.Sprite):
     def __init__(self, y, x, width, movex, movey, image):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image(image, -1)
-        self.movex = movex
-        self.movey = movey
         self.rect.centerx = width/2 + x
         self.rect.centery = y
-    def update(self):
-        newpos = self.rect.move((self.movex), (self.movey))
-        self.rect = newpos
+    #To make sure the numbers move with nodes, it takes their current speed as update parameters
+    def update(self, movex, movey):
+        self.rect = self.rect.move(movex, movey)
 
-class Line(pygame.sprite.Sprite):
-    def __init__(self, start_pos):
-        pygame.sprite.Sprite.__init__(self)
-        #Determine position of Line
-
-#BubbleNode is going to need to be able to take two NumberPNG objects
-# as well as three Line objects
 class BubbleNode():
-    def __init__(self, width, height, num1, num2):
+    def __init__(self, width, height):
+        #Starting coordinates, size and speed
         self.x = width/2
         self.y = 30
         self.movex = 0
         self.movey = 3
+        self.radius = 35
+        #Screen width and height so I don't have to think about adjustment later
         self._width = width
         self._height = height
-        self.num1 = NumberPNG(self.y, -10, width, self.movex, self.movey, num1)
-        self.num2 = NumberPNG(self.y, 10, width, self.movex, self.movey, num2)
+        #Get nodes numbers and set them up for updating
+        num1 = random.randint(0, 9)
+        num2 = random.randint(0, 9)
+        self.value = num1*10 + num2
+        self.num1 = NumberPNG(self.y, -10, width, self.movex, self.movey, get_numberimage(num1))
+        self.num2 = NumberPNG(self.y, 10, width, self.movex, self.movey, get_numberimage(num2))
         self.nodes_nums = pygame.sprite.RenderPlain((self.num1, self.num2))
-        self.triggered = False
+        #Parameter that holds whether to go right or left down tree
+        self.direction = None
+    #Updates the current position of the BubbleNode object and makes it bounce off walls if necessary
     def update(self):
-        if not self.triggered:
-            if self.y >= self._height or self.y <= 0:
-                self.movey = -self.movey
-                self.num1.movey = -self.num1.movey
-                self.num2.movey = -self.num2.movey
-            self.y = self.y + self.movey
-            self.nodes_nums.update()
-
+        if self.y >= self._height - self.radius or self.y <= 0:
+            self.movey = -self.movey
+        if self.x < self.radius or self.x > (self._width - self.radius):
+            self.movex = -self.movex
+        self.y = self.y + self.movey
+        self.x = self.x + self.movex
+        self.nodes_nums.update(self.movex, self.movey)
+    #Draws Node and nodes numbers
     def draw(self, screen):
         BLACK = (0, 0, 0)
-        pygame.draw.circle(screen, BLACK, (self.x, self.y), 50, 1)
+        pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius, 1)
         self.nodes_nums.draw(screen)
 
 class BubbleNodeGroup():
+    #List of the nodes on the screen
     def __init__(self):
         self.bubbles = []
+    #Easy way to add nodes to the current node list
     def append(self, bubbleNode):
         self.bubbles.append(bubbleNode)
+    #Checks for collision and then calls update function for each node
     def update(self):
+        self.collision(0)
         for node in self.bubbles:
             node.update()
+    #Changes properties of the Node if a significant game event occurs  -- STILL BUILDING
+    def collision(self, i):
+        i = 0 #Temporary
+        current = self.bubbles[len(self.bubbles) - 1]
+        root = self.bubbles[i]
+        if root.y - current.y <= 50:
+            current.movex = 1
+            current.movey = 0
+    #Calls draw function for each objects
     def draw(self, screen):
         for node in self.bubbles:
             node.draw(screen)
 
 def main():
+    # ------ PYGAME SETUP --------------
     pygame.init()
     #Set this to fullscreen in later development
     screen = pygame.display.set_mode((1000, 1000))
@@ -127,41 +143,59 @@ def main():
     #fills in background
     background = pygame.Surface(screen.get_size())
     background = background.convert()
+    #Color of background, potentially have pretty background later
     background.fill((255, 255, 255))
     #Display the Background While Setup Finishes
     screen.blit(background, (0,0))
     pygame.display.flip()
-
-    #OBJECTS
-    #Create numbers png
-    num1 = get_number()
-    num2 = get_number()
-    #numbers_png.append(one)
-    #root bubble
-    bubbles = BubbleNodeGroup()
-    root = BubbleNode(width, height, num1, num2)
-    bubbles.append(root)
-
-
     #create game clock
     clock = pygame.time.Clock()
+
+    # ------ OBJECTS ------------
+    #Makes group of Nodes to handle
+    bubbles = BubbleNodeGroup()
+    #root bubble and overriding its properties
+    root = BubbleNode(width, height)
+    root.movey = 0
+    root.x = width/2
+    root.y = height/4
+    root.num1.movey = 0
+    root.num2.movey = 0
+    root.num1.rect.centery = height/4
+    root.num2.rect.centery = height/4
+    #Add root to bubbles group
+    bubbles.append(root)
+
+    # ---------OBJECTS AND FUNCTIONS FOR TESTING --------------
+    bubble1 = BubbleNode(width, height)
+    bubbles.append(bubble1)
+
     #Game loop
-    done = False
-    while not done:
+    main = True
+    while main:
         #increment clock
         clock.tick(60)
-        #Check if collision will occur
+        pygame.display.flip()
+
+        # ----- EVENT HANDLING ---------
+        #Checks if exit event occurs
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                main = False
+                break;
+        #Checks if 'A''D' '<-'key or  '->'key are called
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT or event.key == ord('a'):
+                bubbles.bubbles[1].direction = 'left'
+            if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                bubbles.bubbles[1].direction = 'right'
+
+        #Update all objects
         bubbles.update()
         #updates screen image (redraws screen everytime)
         screen.blit(background, (0, 0))
         bubbles.draw(screen)
-
-        pygame.display.flip()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                done = True
-                break;
 
     pygame.quit()
 
