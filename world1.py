@@ -74,6 +74,17 @@ class NumberPNG(pygame.sprite.Sprite):
     def update(self, movex, movey):
         self.rect = self.rect.move(movex, movey)
 
+class Tree():
+    def __init__(self, left, right):
+        num1 = random.randint(0, 9)
+        num2 = random.randint(0, 9)
+        self.value = num1*10 + num2
+        self.left = None
+        self.right = None
+        self.parent = None
+        self.root = False
+        self.level = 1
+
 class BubbleNode():
     def __init__(self, width, height):
         #Starting coordinates, size and speed
@@ -85,24 +96,58 @@ class BubbleNode():
         #Screen width and height so I don't have to think about adjustment later
         self._width = width
         self._height = height
+        #Connects position in binary tree to BubbleNode object
+        self.tree = Tree(None, None)
         #Get nodes numbers and set them up for updating
-        num1 = random.randint(0, 9)
-        num2 = random.randint(0, 9)
-        self.value = num1*10 + num2
-        self.num1 = NumberPNG(self.y, -10, width, self.movex, self.movey, get_numberimage(num1))
-        self.num2 = NumberPNG(self.y, 10, width, self.movex, self.movey, get_numberimage(num2))
+        self.num1 = NumberPNG(self.y, -10, width, self.movex, self.movey, get_numberimage(self.tree.value / 10))
+        self.num2 = NumberPNG(self.y, 10, width, self.movex, self.movey, get_numberimage(self.tree.value % 10))
         self.nodes_nums = pygame.sprite.RenderPlain((self.num1, self.num2))
-        #Parameter that holds whether to go right or left down tree
-        self.direction = None
+        #Parameter that holds whether collision has occured
+        self.collision = False
+        #Determines whether to go right or left down tree
+        self.direction = 'None'
+        self.finished = False
     #Updates the current position of the BubbleNode object and makes it bounce off walls if necessary
     def update(self):
-        if self.y >= self._height - self.radius or self.y <= 0:
-            self.movey = -self.movey
-        if self.x < self.radius or self.x > (self._width - self.radius):
-            self.movex = -self.movex
-        self.y = self.y + self.movey
-        self.x = self.x + self.movex
-        self.nodes_nums.update(self.movex, self.movey)
+        #four cases: initial, moving along tree, collision, stopped
+        print(self.collision)
+        print(self.direction)
+        print(self.tree.parent)
+        print(self.tree.right)
+        print(self.tree.left)
+        self.finished = self.is_finished()
+        if self.finished:
+            self.movex = 0
+            self.movey = 0
+            self.nodes_nums.update(self.movex, self.movey)
+        elif self.collision:
+            if self.direction == 'None':
+                print("Error, dumb dumb")
+                pygame.quit()
+            elif self.direction == 'right':
+                #Add value check to make sure this correct
+                self.movex = 3
+                self.movey = 3
+                self.collision = False
+            elif self.direction == 'left':
+                self.movex = -3
+                self.movey = 3
+                self.collision = False
+        else:
+            self.y = self.y + self.movey
+            self.x = self.x + self.movex
+            self.nodes_nums.update(self.movex, self.movey)
+
+    def is_finished(self):
+        if self.finished == True:
+            return True
+        if self.tree.parent == None:
+            return False
+        if self.tree.parent.left == self.tree or self.tree.parent.right == self.tree:
+            if self.tree.level * self._height / 4 == self.y:
+                return True
+        else:
+            return False
     #Draws Node and nodes numbers
     def draw(self, screen):
         BLACK = (0, 0, 0)
@@ -118,17 +163,54 @@ class BubbleNodeGroup():
         self.bubbles.append(bubbleNode)
     #Checks for collision and then calls update function for each node
     def update(self):
-        self.collision(0)
-        for node in self.bubbles:
-            node.update()
-    #Changes properties of the Node if a significant game event occurs  -- STILL BUILDING
-    def collision(self, i):
-        i = 0 #Temporary
         current = self.bubbles[len(self.bubbles) - 1]
-        root = self.bubbles[i]
-        if root.y - current.y <= 50:
-            current.movex = 1
-            current.movey = 0
+        # LATER -- ADD END GAME CHECKING HERE
+        #Check if it is entering tree
+        # if not current.intree:
+        #     root = self.bubbles[0]
+        #     if root.y - current.y <= 50 and root.y - current.y > 0:
+        #         current.intree = True
+        #         current.tree.parent = root.tree
+        #         current.tree.level = root.tree.level + 1
+        #         if root.tree.left == None and root.tree.value > current.tree.value and current.direction = 'left':
+        #             root.tree.left = current.tree
+        #         elif root.tree.right == None and root.tree.value < current.tree.value and current.direction = 'right':
+        #             root.tree.right = current.tree
+        #         elif root.tree.left != None and root.tree.value > current.tree.value and current.direction = 'left':
+        #             pass
+        #         elif root.tree.right != None and root.tree.value < current.tree.value and current.direction = 'right':
+        #             pass
+        #         else
+        #             pygame.quit()
+        #             print("Autograder has deemed your knowledge... insufficient")
+        #Check if there is a collision and where it collides
+        #Must handle tree parents
+        for i in range(0, len(self.bubbles)):
+            node = self.bubbles[i]
+            node.update()
+            if self.bubbles[i] == current:
+                continue
+            dist = (current.y - node.y) * (current.y-node.y) + (current.x - node.x) * (current.x - node.x)
+            if dist <= 50*50 and current.tree.parent != node.tree:
+                current.collision = True
+                current.tree.level = node.tree.level + 1
+                if node.tree.left == None and node.tree.value > current.tree.value and current.direction == 'left':
+                    node.tree.left = current.tree
+                    current.tree.parent = node.tree
+                elif node.tree.right == None and node.tree.value <= current.tree.value and current.direction == 'right':
+                    node.tree.right = current.tree
+                    current.tree.parent = node.tree
+                elif node.tree.left != None and node.tree.value > current.tree.value and current.direction == 'left':
+                    pass
+                elif node.tree.right != None and node.tree.value <= current.tree.value and current.direction == 'right':
+                    pass
+                    #print("Autograder has deemed your knowledge... insufficient")
+                #Later, include children
+            #If no collision or not entering the tree, it keeps on keeping on
+            #Update every node
+
+    #Changes properties of the Node if a significant game event occurs  -- STILL BUILDING
+
     #Calls draw function for each objects
     def draw(self, screen):
         for node in self.bubbles:
@@ -163,12 +245,14 @@ def main():
     root.num2.movey = 0
     root.num1.rect.centery = height/4
     root.num2.rect.centery = height/4
+    root.finished = True
+    root.tree.parent = None
     #Add root to bubbles group
     bubbles.append(root)
 
     # ---------OBJECTS AND FUNCTIONS FOR TESTING --------------
-    bubble1 = BubbleNode(width, height)
-    bubbles.append(bubble1)
+    # bubble1 = BubbleNode(width, height)
+    # bubbles.append(bubble1)
     #This serves to remind me of how to add infinite number of elements
     #By doing bubbles.append(BubbleNode(width, height)) in the main game loop, I should be
     #able to work around screen size / number of nodes issue
@@ -182,20 +266,24 @@ def main():
         clock.tick(60)
         pygame.display.flip()
 
-        # ----- EVENT HANDLING ---------
+        # ----- EXIT HANDLING ---------
         #Checks if exit event occurs
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 main = False
                 break;
+        # --- GAME LOGIC ----
+        current = bubbles.bubbles[len(bubbles.bubbles) - 1]
         #Checks if 'A''D' '<-'key or  '->'key are called
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT or event.key == ord('a'):
-                bubbles.bubbles[1].direction = 'left'
+                current.direction = 'left'
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                bubbles.bubbles[1].direction = 'right'
+                current.direction = 'right'
 
+        if current.finished == True:
+            bubbles.append(BubbleNode(width, height))
         #Update all objects
         bubbles.update()
         #updates screen image (redraws screen everytime)
