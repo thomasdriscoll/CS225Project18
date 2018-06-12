@@ -144,7 +144,7 @@ class BubbleNode():
         if self.tree.parent == None:
             return False
         if self.tree.parent.left == self.tree or self.tree.parent.right == self.tree:
-            if self.tree.level * self._height / 4 == self.y:
+            if self.tree.level * self._height / 4 <= self.y:
                 return True
         else:
             return False
