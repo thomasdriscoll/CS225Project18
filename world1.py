@@ -110,11 +110,6 @@ class BubbleNode():
     #Updates the current position of the BubbleNode object and makes it bounce off walls if necessary
     def update(self):
         #four cases: initial, moving along tree, collision, stopped
-        print(self.collision)
-        print(self.direction)
-        print(self.tree.parent)
-        print(self.tree.right)
-        print(self.tree.left)
         self.finished = self.is_finished()
         if self.finished:
             self.movex = 0
@@ -165,24 +160,6 @@ class BubbleNodeGroup():
     def update(self):
         current = self.bubbles[len(self.bubbles) - 1]
         # LATER -- ADD END GAME CHECKING HERE
-        #Check if it is entering tree
-        # if not current.intree:
-        #     root = self.bubbles[0]
-        #     if root.y - current.y <= 50 and root.y - current.y > 0:
-        #         current.intree = True
-        #         current.tree.parent = root.tree
-        #         current.tree.level = root.tree.level + 1
-        #         if root.tree.left == None and root.tree.value > current.tree.value and current.direction = 'left':
-        #             root.tree.left = current.tree
-        #         elif root.tree.right == None and root.tree.value < current.tree.value and current.direction = 'right':
-        #             root.tree.right = current.tree
-        #         elif root.tree.left != None and root.tree.value > current.tree.value and current.direction = 'left':
-        #             pass
-        #         elif root.tree.right != None and root.tree.value < current.tree.value and current.direction = 'right':
-        #             pass
-        #         else
-        #             pygame.quit()
-        #             print("Autograder has deemed your knowledge... insufficient")
         #Check if there is a collision and where it collides
         #Must handle tree parents
         for i in range(0, len(self.bubbles)):
@@ -201,9 +178,9 @@ class BubbleNodeGroup():
                     node.tree.right = current.tree
                     current.tree.parent = node.tree
                 elif node.tree.left != None and node.tree.value > current.tree.value and current.direction == 'left':
-                    pass
+                    current.tree.parent = node.tree
                 elif node.tree.right != None and node.tree.value <= current.tree.value and current.direction == 'right':
-                    pass
+                    current.tree.parent = node.tree
                     #print("Autograder has deemed your knowledge... insufficient")
                 #Later, include children
             #If no collision or not entering the tree, it keeps on keeping on
@@ -220,7 +197,7 @@ def main():
     # ------ PYGAME SETUP --------------
     pygame.init()
     #Set this to fullscreen in later development
-    screen = pygame.display.set_mode((1000, 1000))
+    screen = pygame.display.set_mode((1500, 1000))
     width, height = screen.get_size()
     #fills in background
     background = pygame.Surface(screen.get_size())
