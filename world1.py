@@ -75,14 +75,15 @@ class NumberPNG(pygame.sprite.Sprite):
         self.rect = self.rect.move(movex, movey)
 
 class Tree():
-    def __init__(self, left, right):
+    def __init__(self, x, y, left, right):
+        self.x = x
+        self.y = y
         num1 = random.randint(0, 9)
         num2 = random.randint(0, 9)
         self.value = num1*10 + num2
         self.left = None
         self.right = None
         self.parent = None
-        self.root = False
         self.level = 1
 
 class BubbleNode():
@@ -97,7 +98,7 @@ class BubbleNode():
         self._width = width
         self._height = height
         #Connects position in binary tree to BubbleNode object
-        self.tree = Tree(None, None)
+        self.tree = Tree(self.x, self.y, None, None)
         #Get nodes numbers and set them up for updating
         self.num1 = NumberPNG(self.y, -10, width, self.movex, self.movey, get_numberimage(self.tree.value / 10))
         self.num2 = NumberPNG(self.y, 10, width, self.movex, self.movey, get_numberimage(self.tree.value % 10))
@@ -117,20 +118,25 @@ class BubbleNode():
             self.nodes_nums.update(self.movex, self.movey)
         elif self.collision:
             if self.direction == 'None':
-                print("Error, dumb dumb")
-                pygame.quit()
+                pass
+                # print("Error, dumb dumb")
+                # pygame.quit()
             elif self.direction == 'right':
                 #Add value check to make sure this correct
                 self.movex = 3
-                self.movey = 3
+                self.movey = 2
                 self.collision = False
+                self.direction = 'None'
             elif self.direction == 'left':
                 self.movex = -3
-                self.movey = 3
+                self.movey = 2
                 self.collision = False
+                self.direction = 'None'
         else:
             self.y = self.y + self.movey
             self.x = self.x + self.movex
+            self.tree.x = self.x
+            self.tree.y = self.y
             self.nodes_nums.update(self.movex, self.movey)
 
     def is_finished(self):
@@ -139,7 +145,7 @@ class BubbleNode():
         if self.tree.parent == None:
             return False
         if self.tree.parent.left == self.tree or self.tree.parent.right == self.tree:
-            if self.tree.level * self._height / 4 <= self.y:
+            if self.tree.level * self._height / 6 <= self.y:
                 return True
         else:
             return False
@@ -147,6 +153,8 @@ class BubbleNode():
     def draw(self, screen):
         BLACK = (0, 0, 0)
         pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius, 1)
+        if self.tree.parent != None:
+            pygame.draw.line(screen, BLACK, (self.x, self.y), (self.tree.parent.x, self.tree.parent.y), 1)
         self.nodes_nums.draw(screen)
 
 class BubbleNodeGroup():
@@ -197,7 +205,7 @@ def main():
     # ------ PYGAME SETUP --------------
     pygame.init()
     #Set this to fullscreen in later development
-    screen = pygame.display.set_mode((1500, 1000))
+    screen = pygame.display.set_mode((1800, 1000))
     width, height = screen.get_size()
     #fills in background
     background = pygame.Surface(screen.get_size())
@@ -217,13 +225,15 @@ def main():
     root = BubbleNode(width, height)
     root.movey = 0
     root.x = width/2
-    root.y = height/4
+    root.y = height/6
     root.num1.movey = 0
     root.num2.movey = 0
-    root.num1.rect.centery = height/4
-    root.num2.rect.centery = height/4
+    root.num1.rect.centery = height/6
+    root.num2.rect.centery = height/6
     root.finished = True
     root.tree.parent = None
+    root.tree.x = root.x
+    root.tree.y = root.y
     #Add root to bubbles group
     bubbles.append(root)
 
