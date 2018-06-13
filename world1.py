@@ -1,15 +1,16 @@
-#WORLD 1 --- AVL trees
-# Rationale: AVL trees are binary trees and test more overall knowlege. Plus, we can always remove AVL functionality and just have a binary tree
+#WORLD 1 --- binary trees
+# Rationale: binary trees are binary trees and test more overall knowlege. Plus, we can always remove AVL functionality and just have a binary tree
 # Game:
 # -Small bubbles that follow a line and hit the root node
 # -Before they hit the root, node, you have to determine whether to go right or left
-# -Continue doing so until the bubble is a leaf node and determine whether an AVL rotation should occur (timer or unlimited time TBD)
+# -Continue doing so until the bubble is a leaf node
 # -Get that done and add on functionality (baby steps are the first steps the Flash ever took)
 
 
 #Current objectives:
-# - Handle "infinite" bubble generation in game loop
-# - Stopping position of the bubble
+# - Some collisions between separate branches that result in a child having the wrong parent
+# - Ending conditions
+# - There's a legimate question of whether this would be better as a learning tool or as a game -- I'm thinking learning tool
 
 #Calls the pygame library
 import pygame, random, os, sys
@@ -86,6 +87,26 @@ class Tree():
         self.parent = None
         self.level = 1
 
+class Professor(pygame.sprite.Sprite):
+    def __init__ (self, width, height, prof):
+        pygame.sprite.Sprite.__init__(self)
+        self.image, self.rect = load_image(prof, -1)
+        self.rect.centerx = self.rect.width/2
+        self.rect.centery = height/8
+
+    def update(self):
+        self.rect = self.rect
+
+# class SpeechBubble(pygame.sprite.Sprite):
+#     def __init__ (self, width, height, prof_width, speech):
+#         pygame.sprite.Sprite.__init__(self)
+#         self.image, self.rect = load_image(speech, -1)
+#         self.rect.centerx = prof_width + self.rect.width/2
+#         self.rect.centery = height/8
+#
+#     def update(self):
+#         self.rect = self.rect
+
 class BubbleNode():
     def __init__(self, width, height):
         #Starting coordinates, size and speed
@@ -152,9 +173,9 @@ class BubbleNode():
     #Draws Node and nodes numbers
     def draw(self, screen):
         BLACK = (0, 0, 0)
-        pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius, 1)
         if self.tree.parent != None:
             pygame.draw.line(screen, BLACK, (self.x, self.y), (self.tree.parent.x, self.tree.parent.y), 1)
+        pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius, 1)
         self.nodes_nums.draw(screen)
 
 class BubbleNodeGroup():
@@ -217,11 +238,17 @@ def main():
     pygame.display.flip()
     #create game clock
     clock = pygame.time.Clock()
+    #Create professor guide
+    wade = Professor(width, height, 'wade.png')
+    #speech = SpeechBubble(width, height, wade.rect.width, 'speech_bubble.png')
+    #professor = pygame.sprite.RenderPlain((wade, speech))
+    professor = pygame.sprite.RenderPlain((wade))
 
     # ------ OBJECTS ------------
     #Makes group of Nodes to handle
     bubbles = BubbleNodeGroup()
-    #root bubble and overriding its properties
+    #Root bubble a
+    #Since the root sets all starting conditions, must override its properties
     root = BubbleNode(width, height)
     root.movey = 0
     root.x = width/2
@@ -238,13 +265,6 @@ def main():
     bubbles.append(root)
 
     # ---------OBJECTS AND FUNCTIONS FOR TESTING --------------
-    # bubble1 = BubbleNode(width, height)
-    # bubbles.append(bubble1)
-    #This serves to remind me of how to add infinite number of elements
-    #By doing bubbles.append(BubbleNode(width, height)) in the main game loop, I should be
-    #able to work around screen size / number of nodes issue
-    # for i in range(1, 3):
-    #     bubbles.append(BubbleNode(width,height))
 
     #Game loop
     main = True
@@ -268,14 +288,21 @@ def main():
                 current.direction = 'left'
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
                 current.direction = 'right'
-
+        #End Game logic
+        if current.y > height:
+            print("You've won!")
+            main = False
+            continue
+        #Bubble generation
         if current.finished == True:
             bubbles.append(BubbleNode(width, height))
         #Update all objects
         bubbles.update()
+        professor.update()
         #updates screen image (redraws screen everytime)
         screen.blit(background, (0, 0))
         bubbles.draw(screen)
+        professor.draw(screen)
 
     pygame.quit()
 
