@@ -1,2 +1,2 @@
 # SummerProject2018
-Game for CS225
+Resource (written materials and educational games) for CS225
