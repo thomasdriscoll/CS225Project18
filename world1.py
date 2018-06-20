@@ -173,8 +173,12 @@ class BubbleNode():
     #Draws Node and nodes numbers
     def draw(self, screen):
         BLACK = (0, 0, 0)
+        WHITE = (255, 255, 255)
         if self.tree.parent != None:
             pygame.draw.line(screen, BLACK, (self.x, self.y), (self.tree.parent.x, self.tree.parent.y), 1)
+        #Draws bubble filling
+        pygame.draw.circle(screen, WHITE, (self.x, self.y), self.radius, 0)
+        #Draws bubble outline
         pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius, 1)
         self.nodes_nums.draw(screen)
 
@@ -200,6 +204,11 @@ class BubbleNodeGroup():
             if dist <= 50*50 and current.tree.parent != node.tree:
                 current.collision = True
                 current.tree.level = node.tree.level + 1
+                if current.tree.parent:
+                    if current.tree.parent.left != node.tree and current.tree.parent.right != node.tree:
+                        current.collision = False
+                        continue
+
                 if node.tree.left == None and node.tree.value > current.tree.value and current.direction == 'left':
                     node.tree.left = current.tree
                     current.tree.parent = node.tree
@@ -210,10 +219,7 @@ class BubbleNodeGroup():
                     current.tree.parent = node.tree
                 elif node.tree.right != None and node.tree.value <= current.tree.value and current.direction == 'right':
                     current.tree.parent = node.tree
-                    #print("Autograder has deemed your knowledge... insufficient")
-                #Later, include children
-            #If no collision or not entering the tree, it keeps on keeping on
-            #Update every node
+
 
     #Changes properties of the Node if a significant game event occurs  -- STILL BUILDING
 
@@ -226,7 +232,7 @@ def main():
     # ------ PYGAME SETUP --------------
     pygame.init()
     #Set this to fullscreen in later development
-    screen = pygame.display.set_mode((1800, 1000))
+    screen = pygame.display.set_mode((2000, 1000))
     width, height = screen.get_size()
     #fills in background
     background = pygame.Surface(screen.get_size())
@@ -264,8 +270,18 @@ def main():
     #Add root to bubbles group
     bubbles.append(root)
 
-    # ---------OBJECTS AND FUNCTIONS FOR TESTING --------------
-
+    #GAME
+    #Wade explanation loop
+    intro = 0
+    while intro < 100:
+        clock.tick(60)
+        pygame.display.flip()
+        font = pygame.font.Font(None, 36)
+        text = font.render("Pummel The Chimp, And Win $$$", 1, (10, 10, 10))
+        textpos = text.get_rect(centerx=background.get_width()/2)
+        background.blit(text, textpos)
+        screen.blit(background, (0, 0))
+        intro = intro + 1
     #Game loop
     main = True
     while main:
