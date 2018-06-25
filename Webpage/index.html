@@ -2,26 +2,92 @@
 <html>
   <header>
     <title>CS225 Resources</title>
-    <link rel='stylesheet' href='style.css'/>
+    <link rel='stylesheet' type = 'text/css' href='style.css'/>
   </header>
   <body>
     <!--Togglable headers; make as href to other pages -->
     <ul class='menu_bar'>
-      <li><a href= './index.html'>Home</a></li>
-      <li><a target = '_blank' href = 'https://en.wikipedia.org/wiki/List_(abstract_data_type)'>Lists</a></li>
-      <li><a target = '_blank' href = 'https://www.geeksforgeeks.org/stack-data-structure-introduction-program/'>Stack&Queue</a></li>
-      <li><a target = '_blank' href = 'https://en.wikipedia.org/wiki/Tree_(data_structure)'>Trees</a></li>
-      <li><a target = '_blank' href = 'https://en.wikipedia.org/wiki/B-tree'>BTrees</a></li>
-      <li><a target = '_blank' href = 'https://en.wikipedia.org/wiki/Hash_table'>Hash Tables</a></li>
-      <li><a target = '_blank' href = 'https://en.wikipedia.org/wiki/Graph_(abstract_data_type)'>Graphs</a></li>
-      <li><a target = '_blank' href = 'https://en.wikipedia.org/wiki/Prim%27s_algorithm'>Algorithms</a></li>
+      <li class = 'menu_bar_item'><a href = './index.html'>Home</a></li>
+      <li class = 'menu_bar_item'><a href = './cplusplus.html'>Learning C++</a></li>
+      <li class = 'menu_bar_item'><a href = './lists.html'>Lists</a></li>
+      <li class = 'menu_bar_item'><a href = './stack.html'>Stack&Queue</a></li>
+      <li class = 'menu_bar_item'><a href = './trees.html'>Trees</a></li>
+      <li class = 'menu_bar_item'><a href = './btrees.html'>BTrees</a></li>
+      <li class = 'menu_bar_item'><a href = './hash_tab.html'>Hash Tables</a></li>
+      <li class = 'menu_bar_item'><a href = './graphs.html'>Graphs</a></li>
+      <li class = 'menu_bar_item'><a href = './algorithms.html'>Algorithms</a></li>
     </ul>
     <br />
+    <div class = 'container'>
     <h1 id = 'main_title'>Welcome to CS 225!</h1><br />
     <h3 id = 'sub_main_title'>This is Data Structures</h3>
     <!-- <h6 id = 'sub_main_title'>Author: Thomas Driscoll</h6> -->
-    <p id = 'intro_body'>
-      Provided are written and graphical resources for students learning CS 225 with Wade.
+    <h3 class = 'intro_header'>My Thoughts</h3>
+    <p class = 'intro_body'>
+      To be taking this class, you have to have taken at least CS 125 or ECE 220 (head's up, 220 was much better prep). Those were programming classes. This is a <b>
+      computer science</b> class. That should excite you! CS 225 has all the potential to ignite in you a passion for the material. It's corny
+      but this class had me actually excited to learn for the first time in college. I love data structures, programming and, thanks to Part 3 of MPs, <i> creation</i>. This
+      website is the direct offspring of how cool I found the process of making something from words on a screen.
+      <br />
+      But you've undoubtedly heard that this class is hard and time-consuming. It is. But I fervently believe that everyone has the potential to get an A and no one should get
+      below a C. So how do you it?
     </p>
+    <br />
+    <ol class = 'tips'>
+      <li >Do the Damn Work</li>
+      <p class = 'tip_body'>
+        I wish this wasn't my first and arguably most important point but it is. There are a lot of people who will start and attempt to finish the assignment on Monday, banking
+        on the 24 hour grace period. And they might, thanks to a variety of friends and online sources. But a lot will not and lose 4.5% of their grade in the class.
+        <br />
+        Quick note about the online sources: AdonisSavesYourLife was like a B/C student and his code really reflects it (you'll get like 70%s off plagarizing that).
+        And the other sources that are deeper in GitHub, the course staff knows about them. If you copy/paste, or even change variable names, you're going to get caught.
+        <br />
+        Treat MPs as "easy" points! You have an instant response on whether you're getting a 100 and you have nightly autograders that catch anything else. And by doing them,
+        as much by yourself as possible, you set yourself up to do well on the test. And spoiler alert, the tests are usually just simplier versions of POTDs and MPs. MPs are, as Wade put it,
+        the bread and butter of the class. What you put into them, you'll get out of them. I personally liked MP5 and included some of my artwork somewhere (I wrote this section before the
+        website was completely done).
+      </p>
+      <br />
+      <li >Office Hours</li>
+      <p class = 'tip_body'>
+        You have available to you some of the best office hours on campus. The staff is absolutely fantastic, helpful and friendly. Make it a goal to know them by name!
+        Like all people, they're more relaxed with someone they know and that means they can help you with your problem. And I'm not just saying that so they'll hire
+        me ;). But in all seriousness, the office hours are almost excessively useful and helpful.
+        <br />
+        But they do suffer from a major clogging problem and no one has been able to come up with a great solution.
+        If you go on the Saturday, Sunday or Monday before an MP is due (especially the later ones), be sure that you'll have a 4+ hour wait ahead of you. I once spent 8 hours in Siebel
+        waiting on a TA and never got helped. But there's a really work around to this system... DO IT EARLY! Thursday and Friday evenings are very available times to get there and the
+        TAs are usually so bored, they'll help you a lot more then they normally can afford.
+        <br />
+        If you're reading this and thinking "Thomas. Fridays are my night off. I want, no, I NEED to go stand in line in the presumably freezing weather (it's Illinois) to get
+        into my favorite bar," that's totally fine. I lived that life once upon a time. And, as someone who was there at least every other Friday, I want to say thank you for helping to keep the
+        queue short.
+        </thead>
+      </p><br />
+      <li>Plan for the Test</li>
+      <p class = 'tip_body'>
+        There are 1000 points in CS 225. 610 of those points are from testing. Lets rephrase that because I'm a little slow. The max percent in the class is 100%. <b>61%</b>
+        of your grade is testing.
+        <br /> "But Thomas, that's ridiculous." <br />Yup.
+        <br />"But Thomas, I spent 20+ hours on my MP. That's a better reflection of how good I am." <br />Yup.
+        <br />"But Thomas, [insert complaint here]."<br />
+        I'm sorry my fellow Illini, this isn't going to change. Unfortunately, tech employers believe the "best" way to see how good you are is through programming challenges
+        very similar to the ones you get in the CWS. Personally, I'm in favor of a "here's my GitHub, boom mofo" system but sadly no one asked me. And it's the policy of the school
+        that it would be better for you to fail here then when $80,000/year is on the line. So, if you want to get a job in comp sci or even just have that comp sci minor on
+        your resume, you'll have to push through it.
+        <br />
+        That being said, many people will complain about how they failed their exam, programming or theory, over your CS 225 experience. And when you ask them, "Oh, that sucks. How
+        long did you study?", you'll often get a blank look.
+        Some people seem to feel that you can't study for a programming exam or that it requires hours and hours of challenging programs to grasp the basics. That's just not true.
+        Treat it like any other exam. Make notes (hint: this website could be helpful :D), do some relevant POTDs and review with your classmates. I know this sounds simple but
+        you wouldn't believe how many people just do <i>not</i> do this.
+        <br />
+        However, and I cannot emphasize this enough, a large portion (I'd say 50%+) of people who do poorly did their best and studied and are understandably upset. You being a smart
+        AND a kind person, will recognize that you don't know why they didn't do well. Maybe they focused their time on another class. Maybe the concepts hadn't clicked for them
+        like they had for you. Maybe they're going through some life stuff. So offer to help them study! Doing so reinforces the material in your head and you might actually make
+        a difference to someone.
+      </p><br />
+    </ol>
+    </div>
   </body>
 </html>

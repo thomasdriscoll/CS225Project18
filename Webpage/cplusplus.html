@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <title>CS225 Resources</title>
+    <link rel='stylesheet' href='style.css'/>
+  </header>
+  <body>
+    <!--Togglable headers; make as href to other pages -->
+    <ul class='menu_bar'>
+      <li class = 'menu_bar_item'><a href = './index.html'>Home</a></li>
+      <li class = 'menu_bar_item'><a href = './cplusplus.html'>Learning C++</a></li>
+      <li class = 'menu_bar_item'><a href = './lists.html'>Lists</a></li>
+      <li class = 'menu_bar_item'><a href = './stack.html'>Stack&Queue</a></li>
+      <li class = 'menu_bar_item'><a href = './trees.html'>Trees</a></li>
+      <li class = 'menu_bar_item'><a href = './btrees.html'>BTrees</a></li>
+      <li class = 'menu_bar_item'><a href = './hash_tab.html'>Hash Tables</a></li>
+      <li class = 'menu_bar_item'><a href = './graphs.html'>Graphs</a></li>
+      <li class = 'menu_bar_item'><a href = './algorithms.html'>Algorithms</a></li>
+    </ul>
+    <br />
+    <h1 id = 'main_title'>Learning C++</h1><br />
+    <!-- <h6 id = 'sub_main_title'>Author: Thomas Driscoll</h6> -->
+    <h3>Pointers and Stack Memory (Lecture 3)</h3>
+        <p>
+          Three things to remember about pointers:
+          <br />
+          <ul>
+            <li>Pointers are a variable and a type; they have their own memory</li>
+            <li>Pointers store a memory address (never store the data itself)</li>
+            <li>Pointers may point to NULL (address of 0x0)</li>
+            </ul>
+    <h4>Stack Memory</h4>
+        Starts at very large values and grows down towards 0
+Intuition: The memory size of any computer varies but 0 is 0 everywhere, so easy stopping condition
+All variables are by default stack memory
+Allocated first then data is written; data is always read up; last in first out (LIFO)
+Intuition: Variables are allocated memory on a stack because you growing from bottom up and want to reuse memory as often as possible (POP = more free memory)
+Think of stack memory as local/function memory, super fast to access
+Stack Frames:
+Created when any function myfunction is called
+Stack frame is a pointer
+It points to the first memory address that the function starts from (i.e. the largest memory address associated with the function then grows towards 0 as more variables are added)
+Memory is marked as free’d when a function returns
+Only MARKED as free, not deleted; the value still sits in the memory addy (known as garbage memory) but it can be reused
+Garbage memory is also why you get rando values when you don’t initialize a variable properly
+sizeof() operator
+Gives the amount of space a value takes up in memory
+A pointer takes up 8 Bytes
+std::cout<<sizeof(int)<<std::endl;
+
+
+</p>
+
+
+
+
+
+
+
+
+<h3>Heap (“allocated”) memory in C++ -> Lecture 4</h3>
+<p>
+Heap memory
+“Variables allocated on the heap have their memory allocated at run time and accessing this memory is a bit slower, but the heap size is only limited by the size of virtual memory . Element of the heap have no dependencies with each other and can always be accessed randomly at any time. You can allocate a block at any time and free it at any time. This makes it much more complex to keep track of which parts of the heap are allocated or free at any given time.”
+Intuition: Note symmetry; “opposite” of stack memory
+Heap memory address
+Starts at a low address; grows towards infinity
+Symmetry
+new/delete
+The only way to create heap memory is with the use of the new keyword. Using new will:
+Allocate heap memory
+Call the object’s constructor (if not a primitive variable type)
+Return a pointer to heap memory
+This is why you always have a pointer of type Class to heap memory; light in memory, very elegant solution
+The only way to free heap memory is with the use of the delete keyword. Using delete will:
+Call the object’s destructor
+Mark the memory as free’d (again not actually deleted, only free’d)
+Memory is never automatically reclaimed, even if it goes out of scope. Memory lost but not free’d is “leaked memory”
+Valgrind that shit yo
+ & = memory address (OR alias, depends on context)
+* = initializes a pointer OR, outside of declaration, returns variable value pointer points to
+int *ptr = &variable;
+ptr now points to variable; *ptr == variable …… ptr == &variable
+
+    </p>
+  </body>
+</html>
