@@ -18,9 +18,10 @@
       <li class = 'menu_bar_item'><a href = './algorithms.html'>Algorithms</a></li>
     </ul>
     <br />
+    <div class = 'container'>
     <h1 id = 'main_title'>Learning C++</h1><br />
     <!-- <h6 id = 'sub_main_title'>Author: Thomas Driscoll</h6> -->
-    <h3>Pointers and Stack Memory (Lecture 3)</h3>
+    <h3>Pointers and Stack Memory -> Lecture 3</h3>
         <p>
           Three things to remember about pointers:
           <br />
@@ -30,26 +31,23 @@
             <li>Pointers may point to NULL (address of 0x0)</li>
             </ul>
     <h4>Stack Memory</h4>
-        Starts at very large values and grows down towards 0
-Intuition: The memory size of any computer varies but 0 is 0 everywhere, so easy stopping condition
-All variables are by default stack memory
-Allocated first then data is written; data is always read up; last in first out (LIFO)
-Intuition: Variables are allocated memory on a stack because you growing from bottom up and want to reuse memory as often as possible (POP = more free memory)
-Think of stack memory as local/function memory, super fast to access
-Stack Frames:
-Created when any function myfunction is called
-Stack frame is a pointer
-It points to the first memory address that the function starts from (i.e. the largest memory address associated with the function then grows towards 0 as more variables are added)
-Memory is marked as free’d when a function returns
-Only MARKED as free, not deleted; the value still sits in the memory addy (known as garbage memory) but it can be reused
-Garbage memory is also why you get rando values when you don’t initialize a variable properly
-sizeof() operator
-Gives the amount of space a value takes up in memory
-A pointer takes up 8 Bytes
-std::cout<<sizeof(int)<<std::endl;
-
-
-</p>
+        Starts at very large values and grows down towards 0<br />
+        <b>Intuition</b>: The memory size of any computer varies but 0 is 0 everywhere, so easy stopping condition<br />
+        All variables are by default stack memory<br />
+        Allocated first then data is written; data is always read up; last in first out (LIFO)<br />
+        Intuition: Variables are allocated memory on a stack because you growing from bottom up and want to reuse memory as often as possible (POP = more free memory)<br />
+        Think of stack memory as local/function memory, super fast to access<br />
+    <h4>Stack Frames</h4>
+        Created when any function myfunction is called<br />
+        Stack frame is a pointer<br />
+        It points to the first memory address that the function starts from (i.e. the largest memory address associated with the function then grows towards 0 as more variables are added)<br />
+        Memory is marked as free’d when a function returns<br />
+        Only MARKED as free, not deleted; the value still sits in the memory addy (known as garbage memory) but it can be reused<br />
+        Garbage memory is also why you get rando values when you don’t initialize a variable properly sizeof() operator<br />
+        Gives the amount of space a value takes up in memory<br />
+        A pointer takes up 8 Bytes<br />
+          std::cout<<sizeof(int)<<std::endl;
+        </p>
 
 
 
@@ -83,5 +81,6 @@ int *ptr = &variable;
 ptr now points to variable; *ptr == variable …… ptr == &variable
 
     </p>
+    </div>
   </body>
 </html>
