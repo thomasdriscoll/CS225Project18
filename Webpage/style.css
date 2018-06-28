@@ -29,7 +29,11 @@ a {
   color: LightSkyBlue;
 }
 
-.container {
+.menu_container{
+  min-width: 825px;
+}
+
+.body_container {
   width: 1000px;
   margin: 0 auto;
 }
@@ -61,4 +65,8 @@ a {
 }
 .tips {
   padding: 0;
+}
+
+.tab{
+  margin-left: 40px;
 }
