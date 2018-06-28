@@ -2,13 +2,17 @@
 <html>
   <header>
     <title>CS225 Resources</title>
-    <link rel='stylesheet' href='style.css'/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src = './effects.js'></script>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' type = 'text/css' href='style.css'/>
   </header>
   <body>
-    <!--Togglable headers; make as href to other pages -->
+    <!--Togglable headers; links to other pages -->
     <ul class='menu_bar'>
       <li class = 'menu_bar_item'><a href = './index.html'>Home</a></li>
-      <li class = 'menu_bar_item'><a href = './cplusplus.html'>Learning C++</a></li>
+      <li class = 'menu_bar_item current'>Learning C++</li>
       <li class = 'menu_bar_item'><a href = './lists.html'>Lists</a></li>
       <li class = 'menu_bar_item'><a href = './stack.html'>Stack&Queue</a></li>
       <li class = 'menu_bar_item'><a href = './trees.html'>Trees</a></li>
@@ -19,8 +23,29 @@
     </ul>
     <br />
     <div class = 'container'>
-    <h1 id = 'main_title'>Learning C++</h1><br />
-    <!-- <h6 id = 'sub_main_title'>Author: Thomas Driscoll</h6> -->
+    <h1 class = 'main_title'>Learning C++</h1><br />
+    <h2>First Things First...</h2>
+    <a target = '_blank' href = 'http://www.learncpp.com/'>Learn C++</a>
+    <p>
+      Everything below is assumed to be a review. If you need in-depth explanations from professionals, I HIGHLY recommend this site. They have excellent examples
+      and detailed answers to everything you could ask.
+    </p>
+    <h3>Classes -> Lecture 2</h3>
+    <p>
+      What is object-oriented programming and how do classes fit in?<br />
+      "<b>Object-oriented programming (OOP) </b> provides us with the ability to create objects that tie together both properties and behaviors into a self-contained, reusable
+      variable." <b>Classes</b> are user-defined data types that have associated functions and member variables. <b>Objects</b> are instances of classes.
+      <h4>Access Modifiers</h4>
+      <ul>
+        <li><u>Public</u> - member functions or variables that can be accessed <i>outside</i> the object itself; when the user creates an object (instance of a class), these are the
+        attributes that the user can change in the program</li>
+        <li><u>Private</u> - member functions or variables that can only be accessed <i>inside</i> the object by itself and cannot be changed by the user; think of it as
+        the attributes the user shouldn't be allowed to change</li>
+        <li><u>Protected</u> - member functions/variables that the user cannot change but CAN be changed in derived classes (inheritance explained below)</li>
+      </ul>
+
+
+    </p>
     <h3>Pointers and Stack Memory -> Lecture 3</h3>
         <p>
           Three things to remember about pointers:
@@ -43,42 +68,45 @@
         It points to the first memory address that the function starts from (i.e. the largest memory address associated with the function then grows towards 0 as more variables are added)<br />
         Memory is marked as free’d when a function returns<br />
         Only MARKED as free, not deleted; the value still sits in the memory addy (known as garbage memory) but it can be reused<br />
-        Garbage memory is also why you get rando values when you don’t initialize a variable properly sizeof() operator<br />
+        Garbage memory is also why you get rando values when you don’t initialize a variable properly<br />
+    <h4>sizeof() operator</h4>
         Gives the amount of space a value takes up in memory<br />
         A pointer takes up 8 Bytes<br />
           std::cout<<sizeof(int)<<std::endl;
         </p>
 
-
-
-
-
-
-
-
 <h3>Heap (“allocated”) memory in C++ -> Lecture 4</h3>
-<p>
-Heap memory
-“Variables allocated on the heap have their memory allocated at run time and accessing this memory is a bit slower, but the heap size is only limited by the size of virtual memory . Element of the heap have no dependencies with each other and can always be accessed randomly at any time. You can allocate a block at any time and free it at any time. This makes it much more complex to keep track of which parts of the heap are allocated or free at any given time.”
-Intuition: Note symmetry; “opposite” of stack memory
-Heap memory address
-Starts at a low address; grows towards infinity
-Symmetry
-new/delete
-The only way to create heap memory is with the use of the new keyword. Using new will:
-Allocate heap memory
-Call the object’s constructor (if not a primitive variable type)
-Return a pointer to heap memory
-This is why you always have a pointer of type Class to heap memory; light in memory, very elegant solution
-The only way to free heap memory is with the use of the delete keyword. Using delete will:
-Call the object’s destructor
-Mark the memory as free’d (again not actually deleted, only free’d)
-Memory is never automatically reclaimed, even if it goes out of scope. Memory lost but not free’d is “leaked memory”
-Valgrind that shit yo
- & = memory address (OR alias, depends on context)
-* = initializes a pointer OR, outside of declaration, returns variable value pointer points to
-int *ptr = &variable;
-ptr now points to variable; *ptr == variable …… ptr == &variable
+  <p>
+    <h4>Heap memory</h4>
+      “Variables allocated on the heap have their memory allocated at run time and accessing this memory is a bit slower, but the heap size is only limited by the size of virtual memory.
+      Element of the heap have no dependencies with each other and can always be accessed randomly at any time. You can allocate a block at any time and free it at any time.
+      This makes it much more complex to keep track of which parts of the heap are allocated or free at any given time.”<br />
+      Intuition: Note symmetry; “opposite” of stack memory<br />
+    <h4>Heap memory address</h4>
+      Starts at a low address; grows towards infinity
+      Symmetry
+    <h4>new/delete</h4>
+      The only way to create heap memory is with the use of the new keyword. Using new will:
+      <ol>
+        <li>Allocate heap memory</li>
+        <li>Call the object’s constructor (if not a primitive variable type)</li>
+        <li>Return a pointer to heap memory
+          <ul>
+            <li>This is why you always have a pointer of type Class to heap memory; light in memory, very elegant solution</li>
+          </ul></li>
+      </ol>
+    The only way to free heap memory is with the use of the delete keyword. Using delete will:
+      <ol>
+        <li>Call the object’s destructor</li>
+        <li>Mark the memory as free’d (again not actually deleted, only free’d)
+      </ol>
+Mark the memory as free’d (again not actually deleted, only free’d)<br />
+Memory is never automatically reclaimed, even if it goes out of scope. Memory lost but not free’d is “leaked memory”<br />
+When in doubt, valgrind that ish<br />
+ & = memory address (OR alias, depends on context)<br />
+* = initializes a pointer OR, outside of declaration, returns variable value pointer points to<br />
+int *ptr = &variable;<br />
+ptr now points to variable; *ptr == variable …… ptr == &variable<br />
 
     </p>
     </div>

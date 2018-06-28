@@ -2,12 +2,17 @@
 <html>
   <header>
     <title>CS225 Resources</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src = './effects.js'></script>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' type = 'text/css' href='style.css'/>
   </header>
   <body>
     <!--Togglable headers; make as href to other pages -->
     <ul class='menu_bar'>
-      <li class = 'menu_bar_item'><a href = './index.html'>Home</a></li>
+      <!-- Delete redudant link to self later but good for testing rn -->
+      <li class = 'menu_bar_item current'>Home</li>
       <li class = 'menu_bar_item'><a href = './cplusplus.html'>Learning C++</a></li>
       <li class = 'menu_bar_item'><a href = './lists.html'>Lists</a></li>
       <li class = 'menu_bar_item'><a href = './stack.html'>Stack&Queue</a></li>
@@ -19,13 +24,13 @@
     </ul>
     <br />
     <div class = 'container'>
-    <h1 id = 'main_title'>Welcome to CS 225!</h1><br />
-    <h3 id = 'sub_main_title'>This is Data Structures</h3>
-    <!-- <h6 id = 'sub_main_title'>Author: Thomas Driscoll</h6> -->
-    <h3 class = 'intro_header'>My Thoughts</h3>
+    <h1 class = 'main_title' id = 'home_page_main_title'>Welcome to CS 225!</h1><br />
+    <h2 class = 'sub_main_title'>This is Data Structures</h2>
+
+    <h2 class = 'intro_header'>My Thoughts</h2>
     <p class = 'intro_body'>
-      To be taking this class, you have to have taken at least CS 125 or ECE 220 (head's up, 220 was much better prep). Those were programming classes. This is a <b>
-      computer science</b> class. That should excite you! CS 225 has all the potential to ignite in you a passion for the material. It's corny
+      To be taking this class, you have to have taken at least CS 125 or ECE 220. Those were programming classes. This is a <b>
+      computer science</b> class. That should excite you! CS 225 has all the potential to ignite in you a passion to learn more and more about computer science. It's corny
       but this class had me actually excited to learn for the first time in college. I love data structures, programming and, thanks to Part 3 of MPs, <i> creation</i>. This
       website is the direct offspring of how cool I found the process of making something from words on a screen.
       <br />
@@ -33,8 +38,7 @@
       below a C. So how do you it?
     </p>
     <br />
-    <ol class = 'tips'>
-      <li >Do the Work</li>
+    <h3>Do the Work</h3>
       <p class = 'tip_body'>
         I wish this wasn't my first and arguably most important point but it is. There are a lot of people who will start and attempt to finish the assignment on Monday, banking
         on the 24 hour grace period. And they might, thanks to a variety of friends and online sources. But a lot will not and lose 4.5% of their grade in the class.
@@ -48,7 +52,7 @@
         website was completely done).
       </p>
       <br />
-      <li >Office Hours</li>
+      <h3>Office Hours</h3>
       <p class = 'tip_body'>
         You have available to you some of the best office hours on campus. The staff is absolutely fantastic, helpful and friendly. Make it a goal to know them by name!
         Like all people, they're more relaxed with someone they know and that means they can help you with your problem. And I'm not just saying that so they'll hire
@@ -64,7 +68,7 @@
         queue short.
         </thead>
       </p><br />
-      <li>Plan for the Test</li>
+      <h3>Plan for the Test</h3>
       <p class = 'tip_body'>
         There are 1000 points in CS 225. 610 of those points are from testing. Lets rephrase that because I'm a little slow. The max percent in the class is 100%. <b>61%</b>
         of your grade is testing.
@@ -73,7 +77,7 @@
         <br />"But Thomas, [insert complaint here]."<br />
         I'm sorry my fellow Illini, this isn't going to change. Unfortunately, tech employers believe the "best" way to see how good you are is through programming challenges
         very similar to the ones you get in the CWS. Personally, I'm in favor of a "here's my GitHub, boom mofo" system but sadly no one asked me. And it's the policy of the school
-        that it would be better for you to fail here then when $80,000/year is on the line. So, if you want to get a job in comp sci or even just have that comp sci minor on
+        that it would be better for you to fail here than when $80,000/year is on the line. So, if you want to get a job in comp sci or even just have that comp sci minor on
         your resume, you'll have to push through it.
         <br />
         That being said, many people will complain about how they failed their exam, programming or theory, over your CS 225 experience. And when you ask them, "Oh, that sucks. How
@@ -87,7 +91,18 @@
         like they had for you. Maybe they're going through some life stuff. So offer to help them study! Doing so reinforces the material in your head and you might actually make
         a difference to someone.
       </p><br />
+      <h3>Learn How to Learn</h3>
+      <p class = 'tip_body'>
+        I once went to Wade's office hours and said, "Wade, I'm super interested in this class. I want to succeed. What do you recommend?" And he pointed me in the vague
+        direction of Reddit and YouTube, etc. But I'm annoying, so I pressed him and said, "But what specifically do you think is best?" Then I got the best advice I've
+        gotten in college, which was "The best thing you can do is learn how to discover useful information on the web and apply it. That will be one of the best skills
+        you can get out of this class." <br />
+        By that, he meant I (and you) should Google whatever question you have, figure out what you <i>don't know</i> and then learn it. I'm sharing my knowledge and
+        the resources I used for this class on this site but if it doesn't work for you, go discover something different! I've put down the places I'd start here.
+        The Internet has everything.
+      </p>
     </ol>
+    <h6>Author: Thomas Driscoll</h6>
     </div>
   </body>
 </html>
