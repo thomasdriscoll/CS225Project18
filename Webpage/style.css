@@ -1,3 +1,7 @@
+*{
+  box-sizing: border-box;
+}
+
 body{
   margin: 0;
   font-family: 'Vollkorn', Georgia, Times, serif;
@@ -30,11 +34,12 @@ a {
 }
 
 .menu_container{
-  min-width: 825px;
+  width: 100%;
+  align-self: center;
 }
 
 .body_container {
-  width: 1000px;
+  width: 80%;
   margin: 0 auto;
 }
 
