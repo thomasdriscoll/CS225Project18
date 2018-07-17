@@ -8,24 +8,41 @@ body{
   font-size: 16px;
 }
 
-.menu_bar{
-  margin: 0;
+.navbar{
+  background-color: DarkBlue !important;
   padding: 0;
-  background-color: DarkBlue;
-  text-align: center;
+  margin: 0;
 }
 
-.menu_bar_item {
-  font-size: 18px;
+.navbar-nav{
+  margin: 0 auto;
+  padding: 0;
+  display: block;
+  text-align: center;
+  float: none;
+}
+
+.navbar-nav > li {
   display: inline-block;
+  float: none;
+}
+
+.navbar-collapse > li{
+  display: block;
+}
+.nav-item {
+  font-size: 18px;
   padding: 1%;
   margin: 0 auto;
   color: LightSkyBlue;
+  align-self: center;
+  display: block;
 }
 
 .current{
   border-bottom: 5px solid red;
 }
+
 a {
   font-size: 18px;
   text-decoration: none;
@@ -33,10 +50,6 @@ a {
   color: LightSkyBlue;
 }
 
-.menu_container{
-  width: 100%;
-  align-self: center;
-}
 
 .body_container {
   width: 80%;
@@ -65,13 +78,4 @@ a {
 .intro_header{
   font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
   font-size: 24px;
-}
-.intro_body{
-}
-.tips {
-  padding: 0;
-}
-
-.tab{
-  margin-left: 40px;
 }
