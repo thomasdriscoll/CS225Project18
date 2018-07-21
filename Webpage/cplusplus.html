@@ -11,27 +11,55 @@
   <!-- Font links -->
   <link href='http://fonts.googleapis.com/css?family=Ubuntu:bold' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
-   <!-- Bootstrap & CSS files -->
-   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/> -->
+  <!-- Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  <!-- Personal style sheet -->
   <link rel='stylesheet' type = 'text/css' href='style.css'/>
 </header>
-  <body>
-    <!--Togglable headers; links to other pages -->
-    <div class = 'menu_container'>
-      <nav class='menu_bar'>
-        <!-- Delete redudant link to self later but good for testing rn -->
-        <a class = 'nav-item' href = './index.html'>Home</a>
-        <p class = 'nav-item current'>Learning C++</p>
-        <a class = 'nav-item' href = './lists.html'>Lists</a>
-        <a class = 'nav-item' href = './stack.html'>Stack&Queue</a>
-        <a class = 'nav-item' href = './trees.html'>Trees</a>
-        <a class = 'nav-item' href = './btrees.html'>BTrees</a>
-        <a class = 'nav-item' href = './hash_tab.html'>Hash Tables</a>
-        <a class = 'nav-item' href = './graphs.html'>Graphs</a>
-        <a class = 'nav-item' href = './algorithms.html'>Algorithms</a>
-      </nav>
+<body>
+  <!--Togglable headers; make as href to other pages -->
+  <nav class='navbar navbar-expand-md' role = 'navigation'>
+    <!-- Delete redudant link to self later but good for testing rn -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <ul class= "nav navbar-nav nav-justified m-auto">
+        <li class="nav-item">
+          <a href = './index.html'>Home</p>
+        </li>
+        <li class="nav-item">
+          <p class = 'current mb-0'>Learning C++</a>
+        </li>
+        <li class="nav-item">
+          <a href = './lists.html'>Lists</a>
+        </li>
+        <li class="nav-item">
+          <a href = './stack.html'>Stack&Queue</a>
+        </li>
+        <li class="nav-item">
+          <a href = './trees.html'>Trees</a>
+        </li>
+        <li class="nav-item">
+          <a href = './btrees.html'>BTrees</a>
+        </li>
+        <li class="nav-item">
+          <a href = './hash_tab.html'>Hash Tables</a>
+        </li>
+        <li class="nav-item">
+        <a href = './graphs.html'>Graphs</a>
+        </li>
+        <li class="nav-item">
+        <a class = 'menu_bar_item' href = './algorithms.html'>Algorithms</a>
+        </li>
+      </ul>
     </div>
-    <br />
+  </nav>
+  <br />
     <div class = 'body_container'>
     <h1 class = 'main_title'>Learning C++</h1><br />
     <h2>First Things First...</h2>

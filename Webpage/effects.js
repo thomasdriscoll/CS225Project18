@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $('.nav-item').mouseenter(function() {
+  $('.nav-item').mouseenter(function() {    
     if($(this).hasClass('current')){
       $(this).css({
         'backgroundColor': 'Blue',
